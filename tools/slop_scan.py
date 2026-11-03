@@ -229,10 +229,10 @@ TRIAD_RAW = re.compile(
     re.I,
 )
 
-# 13. Bold-lead bullet items ("- **Header**: text")
+# 15. Bold-lead bullet items ("- **Header**: text")
 BOLD_BULLET = re.compile(r"^\s*(?:[-*•]|\d+[.)])\s+\*\*[^*]+\*\*\s*[:—–-]", re.M)
 
-# 14. Decorative Emojis
+# 16. Decorative Emojis
 EMOJI = re.compile("[\U0001F300-\U0001FAFF\u2705\u2728\u2B50\U0001F680\U0001F525\U0001F4A1]")
 
 # CJK character range + non-CJK word token regex
@@ -465,7 +465,7 @@ def scan(text: str, strip_md: bool = False) -> dict:
         hits.append(f"scam/hype marketing triggers (hype phrases={sh}, exclamation marks={exclam}) [+{pts}]")
         fix_hints.append("Remove scammy ROI multipliers, fake scarcity, and exclamation marks; replace with benevolent boundaries and verifiable math.")
 
-    # 13. Rule-of-Three Triads
+    # 14. Rule-of-Three Triads
     triads = find_valid_triads(norm_text)
     tri = len(triads)
     if per1k(tri) > 4.0 and tri >= 2:
@@ -474,21 +474,22 @@ def scan(text: str, strip_md: bool = False) -> dict:
         hits.append(f"rule-of-three lists ('X, Y, and Z'): {tri} ({per1k(tri):.1f}/1k words) [+{pts}]")
         fix_hints.append("Break symmetrical triplets into single precise words, 2-item contrasts, or uneven 4-item lists.")
 
-    # 14. Formatting & Bold-Lead Bullet Soup
+    # 15. Formatting & Bold-Lead Bullet Soup
+    # Skipped under --strip-markdown: deliberate structure (runbooks, changelogs) is not slop.
     lines = [l for l in norm_text.splitlines() if l.strip()]
     bullets = sum(1 for l in lines if re.match(r"\s*([-*•]|\d+[.)])\s", l))
     bold_bullets = len(BOLD_BULLET.findall(norm_text))
-    if lines and len(lines) > 5 and (bullets / len(lines)) > 0.55:
+    if not strip_md and lines and len(lines) > 5 and (bullets / len(lines)) > 0.55:
         score += 10
         hits.append(f"bullet overload: {bullets}/{len(lines)} lines are bullets [+10]")
         fix_hints.append("Convert bullet-heavy explanations into connected prose paragraphs.")
-    if bold_bullets >= 4:
+    if not strip_md and bold_bullets >= 4:
         pts = min(10, bold_bullets * 2)
         score += pts
         hits.append(f"bold-lead bullet soup ('- **Label**: ...'): {bold_bullets} items [+{pts}]")
         fix_hints.append("Avoid starting every bullet with a bolded title and colon; write natural sentences or use a table.")
 
-    # 15. Decorative Emojis
+    # 16. Decorative Emojis
     emo = len(EMOJI.findall(norm_text))
     if emo >= 2:
         pts = min(10, emo * 3)
@@ -496,7 +497,7 @@ def scan(text: str, strip_md: bool = False) -> dict:
         hits.append(f"decorative emojis: {emo} [+{pts}]")
         fix_hints.append("Strip decorative emojis from headings and prose.")
 
-    # 16. Sentence Rhythm / Burstiness (Language-Agnostic & CJK-Aware Stylometry)
+    # 17. Sentence Rhythm / Burstiness (Language-Agnostic & CJK-Aware Stylometry)
     raw_sents = split_sentences(norm_text)
     sent_lengths = [len(tokenize_words(s)) for s in raw_sents if len(tokenize_words(s)) > 0]
     mean_len = sum(sent_lengths) / len(sent_lengths) if sent_lengths else 0.0

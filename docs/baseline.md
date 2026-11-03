@@ -58,3 +58,11 @@ Median 26, max 54. 10 of 15 files score above 15 in both modes.
 "Repetitive consecutive sentence openers" fired on 15/15 PEPs because it only required 2 repeated pairs, regardless of text length. Human PEPs repeat openers in 3-10% of sentences. The rule now also requires a rate of at least 12%. The 12% cutoff is only anchored on this one human set (max 9.8%); no AI-text set was measured, and the built-in samples contain no repeated openers at all, so it is untested on the positive side.
 
 Re-run on the same 15 PEPs (default mode): median 26 -> 20, files above 15: 10 -> 8. Still high. The "scam/hype triggers" rule (9/15 files) is the next one to examine.
+
+## Update 2: hype rule no longer counts code `!`
+
+The "scam/hype marketing triggers" rule fired on 9/15 PEPs, but none of them contained a single hype phrase. All hits came from the `exclamation marks >= 3` branch, which counted every `!`, including `!=`, `!r`/`!s` conversions, `#!` shebangs and `<!--`. The rule now counts only sentence-final `!` (preceded by a word character or closing punctuation, followed by whitespace or end of text).
+
+Re-run on the same 15 PEPs (default mode): scam/hype files 9 -> 3, median 20 -> 14, files above 15: 8 -> 6. The 3 remaining files (PEP 8, 333, 484) contain real sentence-final exclamations in prose and code comments, so those hits are accurate. Selftest: 37 assertions, all pass (2 new: code `!` ignored, genuine `!` runs still flagged).
+
+Still open: the rule scores 6 points from 3 exclamations regardless of text length, so long human documents may still pick it up. Not yet changed. The remaining 6 files above 15 have not been broken down by rule. The set is still one RST specification genre; no Markdown prose or AI-written text has been measured.

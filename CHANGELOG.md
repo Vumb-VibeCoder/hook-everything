@@ -6,7 +6,7 @@ All notable changes to `hook-everything` are documented in this file.
 
 ### Added
 
-- `skills/value-check`: check 13, the Reader-Feeling Check, which asks how a piece feels to read for each reader segment. The idea comes from gruthen (https://github.com/gruthen), who calls this practice "detone".
+- `skills/value-check`: check 13, the Reader-Feeling Check, which asks how a piece feels to read for each reader segment. The idea comes from gregruthenbeck (https://github.com/gregregruthenbeckbeck), who calls this practice "detone".
 - The value gate grows from 12 to 13 points across `SKILL.md`, `AGENTS.md`, `README.md` and `skills/value-check/SKILL.md`.
 
 ## [5.1.0] - 2026-11-03

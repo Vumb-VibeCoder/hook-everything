@@ -34,4 +34,4 @@ Run this 13-point audit before delivering any copy, campaign, hook idea, market 
 - **Fail on 2, 3, 4, or 5** requires stopping immediately and removing the deceptive or coercive element.
 - **Fail on 1, 6, 7, 8, 9, 10, 11, 12, or 13** requires rewriting the chord, stripping the forced trend, injecting a stronger trust lever, or eliminating AI/hype tells until every line passes cleanly.
 
-Check 13 comes from gruthen's "detone" practice of asking how a piece feels to read for each user segment.
+Check 13 comes from gregruthenbeck's "detone" practice of asking how a piece feels to read for each user segment.

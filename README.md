@@ -92,10 +92,21 @@ python3 tools/slop_scan.py skills/anti-slop/SKILL.md --strip-markdown
 # Fail a CI job when the score is above 15
 python3 tools/slop_scan.py README.md --max-score 15
 
+# Report invisible Unicode (zero-width, U+202F, bidi, tag block, lookalikes)
+python3 tools/slop_scan.py draft.txt --hidden
+
+# Write a cleaned copy, or fail a CI job if any hidden character is found
+python3 tools/slop_scan.py draft.txt --clean draft.clean.txt
+python3 tools/slop_scan.py draft.txt --fail-on-hidden
+
 # JSON output, or run the built-in tests
 python3 tools/slop_scan.py draft.txt --json
 python3 tools/slop_scan.py --selftest
 ```
+
+## Do AI models watermark their text?
+
+Claude does, but not with characters. Anthropic says its watermark biases word choice using a secret key, adds no hidden characters, and can only be checked by someone holding the key. So no local tool can detect or strip it, this scanner included. ChatGPT text sometimes carries odd spaces such as U+202F, but those also come from copy-paste and are weak evidence. `--hidden` finds and removes invisible characters from any source. Sources and caveats are in `research/WATERMARKS.md`.
 
 The 15-point threshold is a working heuristic for dense clusters of AI and marketing tropes. It does not prove who wrote a text.
 
@@ -108,7 +119,7 @@ hook-everything/
 ├── skills/          # The 12 skills
 ├── tools/           # slop_scan.py
 ├── tests/           # unittest suite
-├── research/        # Sources and evidence ratings
+├── research/        # Sources, evidence ratings, watermark notes
 └── examples/        # Before/after rewrites
 ```
 

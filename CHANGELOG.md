@@ -2,6 +2,15 @@
 
 All notable changes to `hook-everything` are documented in this file.
 
+## [5.2.0] - 2026-11-03
+
+### Added
+
+- `tools/slop_scan.py`: `--hidden`, `--fail-on-hidden` and `--clean OUT` audit and strip invisible Unicode. Covers zero-width characters, odd spaces (U+00A0, U+202F, U+2000 to U+200A), soft hyphens, bidi controls, invisible math operators, Hangul fillers, line separators, the Unicode tag block (hidden ASCII is decoded), stray variation selectors, control characters, and Latin words with Cyrillic or Greek lookalikes. Emoji ZWJ sequences, flag tag sequences and CJK spacing are left alone.
+- `research/WATERMARKS.md`: what Anthropic, OpenAI and Google DeepMind have said about text watermarking, with primary and secondary sources marked. Claude's watermark uses word choice, not characters, so the scanner cannot see it.
+- `tests/test_hidden_chars.py`: 17 tests for the audit, the cleaner and the CLI flags.
+- README section on text watermarks.
+
 ## [Unreleased]
 
 ### Added

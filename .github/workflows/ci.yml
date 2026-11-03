@@ -31,3 +31,10 @@ jobs:
           python3 tools/slop_scan.py SKILL.md --max-score 15
           python3 tools/slop_scan.py CHANGELOG.md --strip-markdown --max-score 15
           python3 tools/slop_scan.py research/SOURCES.md --strip-markdown --max-score 15
+          python3 tools/slop_scan.py research/WATERMARKS.md --strip-markdown --max-score 15
+
+      - name: Fail on hidden characters in documentation and skills
+        run: |
+          for f in README.md AGENTS.md SKILL.md CHANGELOG.md research/*.md examples/*.md skills/*/SKILL.md tools/slop_scan.py; do
+            python3 tools/slop_scan.py "$f" --fail-on-hidden > /dev/null || { echo "hidden characters in $f"; exit 1; }
+          done

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Universal Deep Stylometric, Forced-Trend & Anti-Scam Scanner (v5.1).
+"""Universal Deep Stylometric, Forced-Trend & Anti-Scam Scanner (v5.2).
 
 Evaluates 18 linguistic, structural, rhythmic, cognitive, and marketing-hype indicators:
   1. Em-dash density (ignoring fenced code blocks and inline code)
@@ -33,7 +33,7 @@ import json
 import re
 import sys
 
-__version__ = "5.1.0"
+__version__ = "5.2.0"
 
 # --- Multilingual Lexical Blacklists ---
 STOCK_EN = [
@@ -549,6 +549,135 @@ def scan(text: str, strip_md: bool = False) -> dict:
     }
 
 
+
+# ---------------------------------------------------------------------------
+# Hidden-character audit (v5.2). Invisible Unicode is NOT how Claude marks text
+# (see research/WATERMARKS.md), but it does show up in copy-paste, CMS exports
+# and prompt-injection attempts, so the audit reports and can strip it.
+# ---------------------------------------------------------------------------
+
+def _cp(*ranges):
+    out = set()
+    for r in ranges:
+        if isinstance(r, tuple):
+            out.update(range(r[0], r[1] + 1))
+        else:
+            out.add(r)
+    return out
+
+
+HIDDEN_CATEGORIES = {
+    "zero-width": (_cp(0x200B, 0x200C, 0x200D, 0x2060, 0xFEFF), "ZWSP/ZWNJ/ZWJ/word joiner/BOM"),
+    "odd-space": (_cp(0x00A0, 0x1680, (0x2000, 0x200A), 0x202F, 0x205F, 0x3000), "no-break, narrow no-break, en/em/thin/hair, ideographic space"),
+    "soft-hyphen": (_cp(0x00AD), "soft hyphen"),
+    "bidi-control": (_cp(0x061C, 0x200E, 0x200F, (0x202A, 0x202E), (0x2066, 0x2069)), "directional marks, embeddings, overrides, isolates"),
+    "invisible-math": (_cp((0x2061, 0x2064)), "invisible function/times/separator/plus"),
+    "filler": (_cp(0x115F, 0x1160, 0x3164, 0xFFA0), "Hangul filler characters"),
+    "line-separator": (_cp(0x2028, 0x2029), "line and paragraph separators"),
+    "tag-char": (_cp((0xE0000, 0xE007F)), "Unicode tag block (ASCII smuggling)"),
+    "variation-selector": (_cp((0xFE00, 0xFE0F), (0xE0100, 0xE01EF)), "variation selectors"),
+}
+HIDDEN_LOOKUP = {cp: name for name, (cps, _d) in HIDDEN_CATEGORIES.items() for cp in cps}
+
+EMOJI_BASE_RE = re.compile("[©®‼-㊙\U0001F000-\U0001FAFF]")
+LATIN_WORD_WITH_LOOKALIKE = re.compile(r"[A-Za-z]+[Ͱ-ϿЀ-ӿ]+[A-Za-z]*|[Ͱ-ϿЀ-ӿ]+[A-Za-z]+")
+
+
+def _is_c0_c1(cp: int) -> bool:
+    return (cp < 0x20 and cp not in (0x09, 0x0A, 0x0D)) or (0x7F <= cp <= 0x9F)
+
+
+def _legit_hidden(text: str, i: int, cp: int) -> bool:
+    """Characters that are normal in context: emoji variation selector and ZWJ sequences, flag tags, CJK ideographic space."""
+    prev = text[i - 1] if i > 0 else ""
+    nxt = text[i + 1] if i + 1 < len(text) else ""
+    if cp == 0xFE0F and prev and EMOJI_BASE_RE.match(prev):
+        return True
+    if cp == 0x200D and prev and nxt and EMOJI_BASE_RE.match(prev) and EMOJI_BASE_RE.match(nxt):
+        return True
+    if cp == 0x3000 and CJK_CHAR_RE.search(prev + nxt):
+        return True
+    if 0xE0020 <= cp <= 0xE007F:
+        j = i
+        while j > 0 and 0xE0020 <= ord(text[j - 1]) <= 0xE007F:
+            j -= 1
+        if j > 0 and ord(text[j - 1]) == 0x1F3F4:
+            return True
+    return False
+
+
+def audit_hidden(text: str) -> dict:
+    """Return counts, positions and decoded smuggled text for invisible or deceptive characters."""
+    counts: dict[str, dict] = {}
+    smuggled: list[str] = []
+    run = []
+    for i, ch in enumerate(text):
+        cp = ord(ch)
+        cat = HIDDEN_LOOKUP.get(cp)
+        if cat is None and _is_c0_c1(cp):
+            cat = "control"
+        if cat is None or _legit_hidden(text, i, cp):
+            if run:
+                smuggled.append("".join(run)); run = []
+            continue
+        entry = counts.setdefault(cat, {"total": 0, "codepoints": {}, "first_offsets": []})
+        entry["total"] += 1
+        key = f"U+{cp:04X}"
+        entry["codepoints"][key] = entry["codepoints"].get(key, 0) + 1
+        if len(entry["first_offsets"]) < 5:
+            line = text.count("\n", 0, i) + 1
+            entry["first_offsets"].append({"offset": i, "line": line})
+        if 0xE0020 <= cp <= 0xE007E:
+            run.append(chr(cp - 0xE0000))
+        elif run:
+            smuggled.append("".join(run)); run = []
+    if run:
+        smuggled.append("".join(run))
+    homoglyphs = [m.group(0) for m in LATIN_WORD_WITH_LOOKALIKE.finditer(text)]
+    total = sum(v["total"] for v in counts.values())
+    return {
+        "total": total,
+        "categories": counts,
+        "decoded_tag_text": smuggled,
+        "mixed_script_words": homoglyphs[:20],
+        "mixed_script_count": len(homoglyphs),
+    }
+
+
+def clean_hidden(text: str) -> str:
+    """Remove invisible characters, turn odd spaces into plain spaces, keep emoji sequences and CJK spacing."""
+    out = []
+    for i, ch in enumerate(text):
+        cp = ord(ch)
+        cat = HIDDEN_LOOKUP.get(cp)
+        if cat is None and _is_c0_c1(cp):
+            cat = "control"
+        if cat is None or _legit_hidden(text, i, cp):
+            out.append(ch)
+        elif cat == "odd-space":
+            out.append(" ")
+        elif cat == "line-separator":
+            out.append("\n")
+        # every other hidden category is dropped
+    return "".join(out)
+
+
+def format_hidden_report(rep: dict) -> str:
+    if rep["total"] == 0 and rep["mixed_script_count"] == 0:
+        return "hidden characters: none found"
+    lines = [f"hidden characters: {rep['total']} found"]
+    for cat, v in rep["categories"].items():
+        cps = ", ".join(f"{k} x{n}" for k, n in sorted(v["codepoints"].items()))
+        where = ", ".join(f"line {n}" for n in sorted({o["line"] for o in v["first_offsets"]}))
+        lines.append(f" - {cat}: {v['total']} ({cps}); first at {where}")
+    for t in rep["decoded_tag_text"]:
+        lines.append(f" - decoded Unicode-tag text: {t!r}")
+    if rep["mixed_script_count"]:
+        lines.append(f" - words mixing Latin with Cyrillic/Greek lookalikes: {rep['mixed_script_count']} (e.g. {rep['mixed_script_words'][:3]!r})")
+    lines.append(" note: these are weak signals. Copy-paste and CMS exports add them too. They are not proof of AI authorship.")
+    return "\n".join(lines)
+
+
 SLOPPY_SAMPLE = (
     "In today's fast-paced world, it's important to note that our platform isn't just a tool, it's a game-changer. "
     "While traditional solutions offer basic functionality, our architecture stands as a testament to innovation — "
@@ -689,7 +818,7 @@ def selftest() -> int:
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Deep Stylometric, Forced-Trend & Anti-Scam Scanner (v5.1).")
+    parser = argparse.ArgumentParser(description="Deep Stylometric, Forced-Trend & Anti-Scam Scanner (v5.2).")
     parser.add_argument("input", nargs="?", help="Path to text file, or '-' for stdin")
     parser.add_argument("--version", action="version", version=f"slop_scan {__version__}")
     parser.add_argument("--selftest", action="store_true", help="Run built-in 35-assertion test suite")
@@ -697,6 +826,9 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--json", action="store_true", help="Output results as JSON")
     parser.add_argument("--strip-markdown", action="store_true", help="Strip frontmatter, code, blockquotes, and quoted examples before scanning")
     parser.add_argument("--max-score", type=int, default=None, help="Exit with code 1 if score exceeds MAX_SCORE")
+    parser.add_argument("--hidden", action="store_true", help="Also report invisible/deceptive Unicode (zero-width, U+202F, bidi, tag block, lookalikes)")
+    parser.add_argument("--fail-on-hidden", action="store_true", help="Exit with code 1 if any hidden character is found (implies --hidden)")
+    parser.add_argument("--clean", metavar="OUT", help="Write a copy of the input with hidden characters stripped to OUT (use '-' for stdout)")
     args = parser.parse_args(argv[1:])
 
     if args.selftest:
@@ -712,10 +844,23 @@ def main(argv: list[str]) -> int:
         print(f"cannot read input: {e}", file=sys.stderr)
         return 2
 
+    hidden_rep = audit_hidden(text) if (args.hidden or args.fail_on_hidden or args.clean) else None
+    if args.clean:
+        cleaned = clean_hidden(text)
+        if args.clean == "-":
+            sys.stdout.write(cleaned)
+            return 0
+        with open(args.clean, "w", encoding="utf-8") as fh:
+            fh.write(cleaned)
+        print(f"wrote cleaned copy to {args.clean} ({hidden_rep['total']} hidden characters removed)", file=sys.stderr)
+
     res = scan(text, strip_md=args.strip_markdown)
+    if hidden_rep is not None:
+        res["hidden_chars"] = hidden_rep
+    hidden_fail = bool(args.fail_on_hidden and hidden_rep and hidden_rep["total"] > 0)
     if args.json:
         print(json.dumps(res, ensure_ascii=False, indent=2))
-        if args.max_score is not None and res["score"] > args.max_score:
+        if hidden_fail or (args.max_score is not None and res["score"] > args.max_score):
             return 1
         return 0
 
@@ -730,11 +875,18 @@ def main(argv: list[str]) -> int:
     else:
         print(" - no listed AI patterns detected (verify specificity and voice manually)")
 
+    if hidden_rep is not None:
+        print()
+        print(format_hidden_report(hidden_rep))
+
     if args.fix_hints and res["fix_hints"]:
         print("\nfix hints:")
         for hint in res["fix_hints"]:
             print(" *", hint)
 
+    if hidden_fail:
+        print("FAIL: hidden characters found (--fail-on-hidden)", file=sys.stderr)
+        return 1
     if args.max_score is not None and res["score"] > args.max_score:
         print(f"FAIL: score {res['score']} exceeds --max-score {args.max_score}", file=sys.stderr)
         return 1

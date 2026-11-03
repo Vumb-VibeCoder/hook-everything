@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unit test suite for tools/slop_scan.py (v5.1.0).
+"""Unit test suite for tools/slop_scan.py (v5.2.0).
 
 Covers every scanner indicator, Task A fixes, --version, BrokenPipeError handling,
 human Vietnamese sample, and context-sensitive harness/vital/realm matching.

@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run slop_scan self-test
+        run: python3 tools/slop_scan.py --selftest
+
+      - name: Run unit test suite
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Audit root documentation and reference files (score <= 15)
+        run: |
+          python3 tools/slop_scan.py README.md --max-score 15
+          python3 tools/slop_scan.py AGENTS.md --max-score 15
+          python3 tools/slop_scan.py SKILL.md --max-score 15
+          python3 tools/slop_scan.py CHANGELOG.md --strip-markdown --max-score 15
+          python3 tools/slop_scan.py research/SOURCES.md --strip-markdown --max-score 15

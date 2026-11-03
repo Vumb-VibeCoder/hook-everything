@@ -15,6 +15,15 @@ The one rule: a hook must survive the second look. When readers see how a page w
 
 **1. Install the skills**
 
+Claude Code plugin (easiest):
+
+```text
+/plugin marketplace add Vumb-VibeCoder/hook-everything
+/plugin install hook-everything@hook-everything
+```
+
+Or copy the files by hand:
+
 ```bash
 git clone https://github.com/Vumb-VibeCoder/hook-everything.git
 cd hook-everything

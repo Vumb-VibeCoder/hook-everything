@@ -1,0 +1,13 @@
+{
+  "name": "hook-everything",
+  "description": "12 skills for human-sounding copy and ethical, trust-first hooks across marketing, writing and product UX, plus a zero-dependency slop scanner.",
+  "version": "5.1.0",
+  "author": {
+    "name": "Asa",
+    "url": "https://github.com/Vumb-VibeCoder"
+  },
+  "homepage": "https://github.com/Vumb-VibeCoder/hook-everything",
+  "repository": "https://github.com/Vumb-VibeCoder/hook-everything",
+  "license": "MIT",
+  "keywords": ["copywriting", "anti-slop", "hooks", "ux", "marketing", "writing"]
+}

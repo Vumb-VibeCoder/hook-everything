@@ -1,0 +1,15 @@
+{
+  "name": "hook-everything",
+  "owner": {
+    "name": "Asa",
+    "url": "https://github.com/Vumb-VibeCoder"
+  },
+  "plugins": [
+    {
+      "name": "hook-everything",
+      "source": "./",
+      "description": "12 skills for human-sounding copy and ethical hooks, plus a zero-dependency slop scanner.",
+      "version": "5.1.0"
+    }
+  ]
+}

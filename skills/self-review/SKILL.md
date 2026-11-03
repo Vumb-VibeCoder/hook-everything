@@ -1,6 +1,6 @@
 ---
 name: self-review
-description: After drafting, reread the text as a native reader in its own language. If it still reads as machine-written, rewrite it. Works in any language. Use before value-check on any piece of prose.
+description: After drafting, reread the text as a native reader in its own language. If it still reads as machine-written, rewrite it. Works in any language. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Self-Review Loop (Read It Cold, Rewrite If It Still Smells)
 

@@ -1,6 +1,6 @@
 ---
 name: psychology-map
-description: Map 30 behavioral, perceptual, conversion, and trust mechanisms with evidence ratings and failure modes. Use when diagnosing behavior or selecting levers for copy or product UX.
+description: Map 30 behavioral, perceptual, conversion, and trust mechanisms with evidence ratings and failure modes. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Psychology Map (30 Mechanisms Across 6 Layers)
 

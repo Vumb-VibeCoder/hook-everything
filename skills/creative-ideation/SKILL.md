@@ -1,6 +1,6 @@
 ---
 name: creative-ideation
-description: Generate non-cliche hook ideas, campaign concepts, and product angles using live web signals, Graveyard pruning, and Koestler Bisociation. Use when brainstorming fresh hooks or creative angles.
+description: Generate non-cliche hook ideas, campaign concepts, and product angles using live web signals, Graveyard pruning, and Koestler Bisociation. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Creative Hook Ideation Engine (Live-Signal & Bisociation Protocol)
 

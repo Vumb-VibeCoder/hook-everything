@@ -1,6 +1,6 @@
 ---
 name: value-check
-description: Audit copy, campaigns, and UX flows across 13 ethical, trust, organic-fit, and subtlety checks before shipping. Use when running the final pre-ship quality gate on any deliverable.
+description: Audit copy, campaigns, and UX flows across 13 ethical, trust, organic-fit, and subtlety checks before shipping. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Value, Trust & Subtlety Check (13-Point Gate)
 

@@ -1,6 +1,6 @@
 ---
 name: market-intelligence
-description: Run live web market, competitor, and Voice-of-Customer (VoC) analysis with the Organic Fit Gate so market trends are never forced. Use when researching positioning, pain points, or market context.
+description: Run live web market, competitor, and Voice-of-Customer (VoC) analysis with the Organic Fit Gate so market trends are never forced. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Live Market Intelligence & The Organic Fit Gate
 

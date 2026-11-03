@@ -1,6 +1,6 @@
 ---
 name: marketing-hooks
-description: Drive high-conversion, anti-scam marketing using Self-Perception micro-commitments, Mental Accounting, Regret Regulation, and Inoculation. Use when writing ads, landing pages, pricing, or outreach.
+description: Drive high-conversion, anti-scam marketing using Self-Perception micro-commitments, Mental Accounting, Regret Regulation, and Inoculation. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # High-Conversion, Anti-Scam Marketing Psychology
 

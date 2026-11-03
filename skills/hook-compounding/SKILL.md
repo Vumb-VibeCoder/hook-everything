@@ -1,6 +1,6 @@
 ---
 name: hook-compounding
-description: Combine 3 to 4 psychological mechanisms simultaneously (Psychological Chords) and rotate them across sections or funnels without fatigue. Use when orchestrating multi-layered hooks across copy or UX.
+description: Combine 3 to 4 psychological mechanisms simultaneously (Psychological Chords) and rotate them across sections or funnels without fatigue. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Hook Compounding & Chord Orchestration
 

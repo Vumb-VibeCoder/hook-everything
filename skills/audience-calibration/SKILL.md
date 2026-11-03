@@ -1,6 +1,6 @@
 ---
 name: audience-calibration
-description: Calibrate hook speed, cognitive load, proof type, and register across audiences using the Elaboration Likelihood Model and Construal Level Theory. Use when tailoring hooks to specific readers or channels.
+description: Calibrate hook speed, cognitive load, proof type, and register across audiences using the Elaboration Likelihood Model and Construal Level Theory. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Audience Calibration & Cognitive Routing
 

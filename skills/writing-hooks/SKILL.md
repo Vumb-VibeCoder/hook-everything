@@ -1,6 +1,6 @@
 ---
 name: writing-hooks
-description: Craft invisible openers, False-Summit retention bridges, 90/10 Socratic generation gaps, and Peak-End closers in any language. Use when writing or editing articles, essays, newsletters, or docs.
+description: Craft invisible openers, False-Summit retention bridges, 90/10 Socratic generation gaps, and Peak-End closers in any language. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Writing Hooks & Long-Form Retention Architecture
 

@@ -1,6 +1,6 @@
 ---
 name: anti-slop
-description: Strip 85 stylometric, syntactic, cross-linguistic, and marketing-hype AI writing tells across any language. Use when drafting, editing, or humanizing text alongside tools/slop_scan.py.
+description: Strip 85 stylometric, syntactic, cross-linguistic, and marketing-hype AI writing tells across any language. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Universal Anti-Slop & Anti-Hype (85 Deep Stylometric & Cognitive Rules)
 

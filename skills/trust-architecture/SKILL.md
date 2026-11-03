@@ -1,6 +1,6 @@
 ---
 name: trust-architecture
-description: Build credibility in writing, marketing, and product flows using Mayer's ABI model, inoculation, operational transparency, and costly signaling. Use when audiences are skeptical or fatigued by hype.
+description: Build credibility in writing, marketing, and product flows using Mayer's ABI model, inoculation, operational transparency, and costly signaling. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Trust Architecture
 

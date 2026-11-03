@@ -1,6 +1,6 @@
 ---
 name: product-hooks
-description: Design sandbox onboarding, operational transparency, IKEA co-creation, Day 1-30 habit graduation, and humane offboarding. Use when building SaaS flows, developer tools, or interactive products.
+description: Design sandbox onboarding, operational transparency, IKEA co-creation, Day 1-30 habit graduation, and humane offboarding. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Product & Project Hooks (Full-Lifecycle Architecture)
 

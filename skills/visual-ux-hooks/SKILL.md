@@ -1,6 +1,6 @@
 ---
 name: visual-ux-hooks
-description: Structure spatial attention, choice caps, skimmer eye-brakes, and response timing using Von Restorff isolation and Hick's Law. Use when designing landing pages, interfaces, or document layouts.
+description: Structure spatial attention, choice caps, skimmer eye-brakes, and response timing using Von Restorff isolation and Hick's Law. Sub-skill: load only when routed from the hook-everything entry skill, not for general writing or editing.
 ---
 # Visual, Spatial & Perceptual UX Hooks
 

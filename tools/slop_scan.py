@@ -528,7 +528,9 @@ def scan(text: str, strip_md: bool = False) -> dict:
         consecutive_repeats = sum(
             1 for i in range(1, len(first_words)) if first_words[i] == first_words[i - 1]
         )
-        if consecutive_repeats >= 2:
+        # Require a rate, not just a count: long human docs repeat openers 3-10% of the
+        # time (see docs/baseline.md), so a flat count of 2 fires on almost any long text.
+        if consecutive_repeats >= 2 and consecutive_repeats / len(first_words) >= 0.12:
             score += 6
             hits.append(f"repetitive consecutive sentence openers: {consecutive_repeats} pairs [+6]")
             fix_hints.append("Vary how consecutive sentences start instead of repeating the same subject or determiner.")

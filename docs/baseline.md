@@ -52,3 +52,9 @@ Median 26, max 54. 10 of 15 files score above 15 in both modes.
 - Re-run on Markdown prose (pre-2020 blog posts, READMEs, docs) with code blocks stripped.
 - Check why the two rules above fire so broadly, and adjust or add exemptions.
 - Revisit the default threshold once a larger set exists.
+
+## Update 1: opener-repeat rule now needs a rate
+
+"Repetitive consecutive sentence openers" fired on 15/15 PEPs because it only required 2 repeated pairs, regardless of text length. Human PEPs repeat openers in 3-10% of sentences. The rule now also requires a rate of at least 12%. The 12% cutoff is only anchored on this one human set (max 9.8%); no AI-text set was measured, and the built-in samples contain no repeated openers at all, so it is untested on the positive side.
+
+Re-run on the same 15 PEPs (default mode): median 26 -> 20, files above 15: 10 -> 8. Still high. The "scam/hype triggers" rule (9/15 files) is the next one to examine.

@@ -1,10 +1,10 @@
 ---
 name: value-check
-description: Audit copy, campaigns, and UX flows across 12 ethical, trust, organic-fit, and subtlety checks before shipping. Use when running the final pre-ship quality gate on any deliverable.
+description: Audit copy, campaigns, and UX flows across 13 ethical, trust, organic-fit, and subtlety checks before shipping. Use when running the final pre-ship quality gate on any deliverable.
 ---
-# Value, Trust & Subtlety Check (12-Point Gate)
+# Value, Trust & Subtlety Check (13-Point Gate)
 
-Run this 12-point audit before delivering any copy, campaign, hook idea, market analysis, or product flow. Any **NO** requires a rewrite before shipping.
+Run this 13-point audit before delivering any copy, campaign, hook idea, market analysis, or product flow. Any **NO** requires a rewrite before shipping.
 
 ## Part 1: Ethical & Zero-Scam ("Anti-Scam") Gate
 
@@ -27,8 +27,11 @@ Run this 12-point audit before delivering any copy, campaign, hook idea, market 
 | **10. The Smell Test** | Can a skeptical reader smell "marketing" or "copywriting tricks"? If yes, cut adjective intensity by 40% and add a stronger **Trust Damper** (`skills/trust-architecture`). |
 | **11. Chord Orthogonality** | Did you pair high-tension hooks with trust/autonomy dampers (`skills/hook-compounding`) and rotate chords across consecutive blocks? |
 | **12. 85-Rule Anti-Slop Gate** | Does the text score `<= 15/100` on `tools/slop_scan.py` and obey all 85 rules in `skills/anti-slop`? |
+| **13. The Reader-Feeling Check** | For each reader segment in `skills/audience-calibration` (for example, a skimmer and a deep reader), how would it feel to read this? Name any spot that bores, confuses, or talks down to that segment, and rewrite it. |
 
 ## Decision Rule
 
 - **Fail on 2, 3, 4, or 5** requires stopping immediately and removing the deceptive or coercive element.
-- **Fail on 1, 6, 7, 8, 9, 10, 11, or 12** requires rewriting the chord, stripping the forced trend, injecting a stronger trust lever, or eliminating AI/hype tells until every line passes cleanly.
+- **Fail on 1, 6, 7, 8, 9, 10, 11, 12, or 13** requires rewriting the chord, stripping the forced trend, injecting a stronger trust lever, or eliminating AI/hype tells until every line passes cleanly.
+
+Check 13 comes from gruthen's "detone" practice of asking how a piece feels to read for each user segment.

@@ -10,7 +10,7 @@ Read this file first in every session.
 4. **4-Note Psychological Chords** come from `skills/hook-compounding`. Layer 3 to 4 complementary mechanisms at once (`Trust Damper + Cognitive Anchor + Active Generator + Forward Vector`), and pair text with spatial structure from `skills/visual-ux-hooks`.
 5. **Anti-Scam High Conversion** follows `skills/marketing-hooks` to lift conversion via Self-Perception micro-commitments (Bem 1967), Mental Accounting reframes (Thaler 1985), and Regret Regulation (Zeelenberg 1999), never via fake urgency or inflated ROI.
 6. **85-Rule Deep Anti-Slop Across Languages** requires every draft to obey `skills/anti-slop` and score `<= 15/100` on `python3 tools/slop_scan.py <file> --fix-hints`. Rewrite in 300-word blocks to prevent LLM voice drift.
-7. **Mandatory 12-Point Value Gate** runs `skills/value-check` before delivering output.
+7. **Mandatory 13-Point Value Gate** runs `skills/value-check` before delivering output.
 
 ## Lite Lane vs. Full Lane Routing
 

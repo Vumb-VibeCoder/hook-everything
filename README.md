@@ -78,7 +78,7 @@ Short edits use the **Lite Lane** (2 to 3 skills). Campaigns and new products us
 | `writing-hooks` | Openers and mid-article retention |
 | `product-hooks` | Onboarding, habits and humane offboarding |
 | `anti-slop` | 85 rules for natural, non-hype writing |
-| `value-check` | 12-point ethics and quality gate before you ship |
+| `value-check` | 13-point ethics and quality gate before you ship |
 
 ## Scanner cheatsheet
 

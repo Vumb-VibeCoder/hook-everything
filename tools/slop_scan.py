@@ -220,6 +220,9 @@ SCAM_HYPE = re.compile(
     re.I,
 )
 
+# Sentence-final exclamation mark (not "!=", "!r", "#!", "<!--")
+EXCLAIM_END = re.compile(r"[\w)\]\"'”’]!(?=\s|$)")
+
 # 12. Rule-of-three triads ("X, Y, and Z") - requires alphabetic start on each item to ignore pure numbers
 TRIAD_RAW = re.compile(
     r"\b([A-Za-z\u00C0-\u024F\u1E00-\u1EFF][\w-]*),\s+"
@@ -458,7 +461,9 @@ def scan(text: str, strip_md: bool = False) -> dict:
         fix_hints.append("Pass market trends through the Organic Fit Gate: drop 'With the recent rise of...' and state the direct operational symptom instead.")
 
     sh = len(SCAM_HYPE.findall(norm_text))
-    exclam = norm_text.count("!")
+    # Count only sentence-final "!" (word/closing punctuation, then whitespace or end).
+    # Skips code/markup uses such as "!=", "!r", "#!/usr/bin", "<!--".
+    exclam = len(EXCLAIM_END.findall(norm_text))
     if sh or exclam >= 3:
         pts = min(25, sh * 10 + (6 if exclam >= 3 else 0))
         score += pts
@@ -785,6 +790,10 @@ def selftest() -> int:
         ("Detects rhetorical self-Q&A", any("self-Q&A" in h for h in r_subtle["hits"])),
         ("Detects forced trend-jacking", any("trend-jacking" in h for h in r_scam["hits"])),
         ("Detects scam/hype triggers", any("scam/hype" in h for h in r_scam["hits"])),
+        ("Code/markup '!' (!=, !r, #!) is not counted as exclamation inflation",
+         not any("scam/hype" in h for h in scan("if a != b:\n    print(f'{x!r} {y!s}')\n#!/bin/sh\n<!-- note -->\nUse a != b here, and x!r in f-strings, plus #!/bin/sh lines.")["hits"])),
+        ("Sentence-final '!' x3 still triggers hype rule",
+         any("scam/hype" in h for h in scan("Buy it now! Do it today! You will love it! Really!")["hits"])),
         # Extended detectors & flag assertions (11-19)
         ("Detects participial tails", any("participial" in h for h in r_bad["hits"])),
         ("Detects copula avoidance", any("copula" in h for h in r_bad["hits"])),

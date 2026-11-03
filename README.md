@@ -9,7 +9,7 @@
 
 Skills that help an AI assistant write copy people actually want to read, and design flows people actually want to finish. It also ships a small scanner that tells you when a text sounds like a machine wrote it.
 
-The one rule: a hook must survive the second look. When readers see how a page was built, they should respect the craft, not feel tricked.
+The test I apply to everything here: if the reader saw your design notes, would they still trust the page?
 
 ## Quickstart (2 minutes)
 

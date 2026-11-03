@@ -828,6 +828,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--max-score", type=int, default=None, help="Exit with code 1 if score exceeds MAX_SCORE")
     parser.add_argument("--hidden", action="store_true", help="Also report invisible/deceptive Unicode (zero-width, U+202F, bidi, tag block, lookalikes)")
     parser.add_argument("--fail-on-hidden", action="store_true", help="Exit with code 1 if any hidden character is found (implies --hidden)")
+    parser.add_argument("--hidden-only", action="store_true", help="Run only the hidden-Unicode audit and skip the 18 style metrics (for pre-commit/CI). Exit 1 if any hidden character is found")
     parser.add_argument("--clean", metavar="OUT", help="Write a copy of the input with hidden characters stripped to OUT (use '-' for stdout)")
     args = parser.parse_args(argv[1:])
 
@@ -844,7 +845,7 @@ def main(argv: list[str]) -> int:
         print(f"cannot read input: {e}", file=sys.stderr)
         return 2
 
-    hidden_rep = audit_hidden(text) if (args.hidden or args.fail_on_hidden or args.clean) else None
+    hidden_rep = audit_hidden(text) if (args.hidden or args.fail_on_hidden or args.clean or args.hidden_only) else None
     if args.clean:
         cleaned = clean_hidden(text)
         if args.clean == "-":
@@ -853,6 +854,16 @@ def main(argv: list[str]) -> int:
         with open(args.clean, "w", encoding="utf-8") as fh:
             fh.write(cleaned)
         print(f"wrote cleaned copy to {args.clean} ({hidden_rep['total']} hidden characters removed)", file=sys.stderr)
+
+    if args.hidden_only:
+        if args.json:
+            print(json.dumps({"hidden_chars": hidden_rep}, ensure_ascii=False, indent=2))
+        else:
+            print(format_hidden_report(hidden_rep))
+        if hidden_rep["total"] > 0:
+            print("FAIL: hidden characters found (--hidden-only)", file=sys.stderr)
+            return 1
+        return 0
 
     res = scan(text, strip_md=args.strip_markdown)
     if hidden_rep is not None:

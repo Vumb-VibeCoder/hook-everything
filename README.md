@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)
-![Skills](https://img.shields.io/badge/skills-12-orange)
+![Skills](https://img.shields.io/badge/skills-13-orange)
 
 Skills that help an AI assistant write copy people actually want to read, and design flows people actually want to finish. It also ships a small scanner that tells you when a text sounds like a machine wrote it.
 
@@ -54,16 +54,16 @@ You get a score from 0 to 100 and a list of what to rewrite. Aim for 15 or lower
 
 | I want to... | Skills (in order) |
 |---|---|
-| Humanize or clean up a text in any language | `anti-slop` → `value-check` |
-| Write a short email, release note or headline | `writing-hooks` → `anti-slop` → `value-check` |
-| Write an essay, article or newsletter | `audience-calibration` → `trust-architecture` → `hook-compounding` → `writing-hooks` → `anti-slop` → `value-check` |
-| Build a landing page, ad or outreach sequence | `market-intelligence` → `audience-calibration` → `trust-architecture` → `hook-compounding` → `marketing-hooks` → `visual-ux-hooks` → `anti-slop` → `value-check` |
+| Humanize or clean up a text in any language | `anti-slop` → `self-review` → `value-check` |
+| Write a short email, release note or headline | `writing-hooks` → `anti-slop` → `self-review` → `value-check` |
+| Write an essay, article or newsletter | `audience-calibration` → `trust-architecture` → `hook-compounding` → `writing-hooks` → `anti-slop` → `self-review` → `value-check` |
+| Build a landing page, ad or outreach sequence | `market-intelligence` → `audience-calibration` → `trust-architecture` → `hook-compounding` → `marketing-hooks` → `visual-ux-hooks` → `anti-slop` → `self-review` → `value-check` |
 | Design onboarding or a product flow | `psychology-map` → `trust-architecture` → `visual-ux-hooks` → `hook-compounding` → `product-hooks` → `value-check` |
-| Find fresh angles and ideas | `market-intelligence` → `creative-ideation` → `hook-compounding` → `anti-slop` → `value-check` |
+| Find fresh angles and ideas | `market-intelligence` → `creative-ideation` → `hook-compounding` → `anti-slop` → `self-review` → `value-check` |
 
 Short edits use the **Lite Lane** (2 to 3 skills). Campaigns and new products use the **Full Lane**. Details are in `AGENTS.md`.
 
-## The 12 skills
+## The 13 skills
 
 | Skill | What it does |
 |---|---|
@@ -78,6 +78,7 @@ Short edits use the **Lite Lane** (2 to 3 skills). Campaigns and new products us
 | `writing-hooks` | Openers and mid-article retention |
 | `product-hooks` | Onboarding, habits and humane offboarding |
 | `anti-slop` | 85 rules for natural, non-hype writing |
+| `self-review` | Rereads a draft as a native reader in any language and rewrites it if it still sounds machine-made |
 | `value-check` | 13-point ethics and quality gate before you ship |
 
 ## Scanner cheatsheet
@@ -116,7 +117,7 @@ The 15-point threshold is a working heuristic for dense clusters of AI and marke
 hook-everything/
 ├── AGENTS.md        # Routing rules for agents
 ├── SKILL.md         # Root skill manifest
-├── skills/          # The 12 skills
+├── skills/          # The 13 skills
 ├── tools/           # slop_scan.py
 ├── tests/           # unittest suite
 ├── research/        # Sources, evidence ratings, watermark notes

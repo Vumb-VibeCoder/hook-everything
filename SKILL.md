@@ -24,10 +24,10 @@ Use this suite when researching live market trends and Voice-of-Customer (VoC) l
    Structure visual isolation (Von Restorff), choice caps (Iyengar & Lepper), skimmer eye-brakes, and response timing.
 6. **Execute Domain Playbook (`marketing-hooks`, `writing-hooks`, or `product-hooks`)**
    Draft the deliverables with micro-commitment ladders, regret elimination, and earned payoffs.
-7. **Enforce 85-Rule Anti-Slop & 13-Point Value Gate (`anti-slop` + `value-check`)**
-   Run `python3 tools/slop_scan.py <file> --fix-hints` (target `<= 15/100`) and verify all 13 checks in `value-check`.
+7. **Enforce 85-Rule Anti-Slop, Self-Review & 13-Point Value Gate (`anti-slop` + `self-review` + `value-check`)**
+   Run `python3 tools/slop_scan.py <file> --fix-hints` (target `<= 15/100`) and reread the draft as a native reader with `skills/self-review/SKILL.md` and rewrite anything that still sounds machine-made, then verify all 13 checks in `value-check`.
 
-## Bundled Skills & Tools (12 Skills + CLI Scanner)
+## Bundled Skills & Tools (13 Skills + CLI Scanner)
 
 | Resource Path | Role in the Suite |
 |---|---|
@@ -42,6 +42,7 @@ Use this suite when researching live market trends and Voice-of-Customer (VoC) l
 | `skills/writing-hooks/SKILL.md` | Openers, False-Summit retention bridges, 90/10 generation gaps, and pacing. |
 | `skills/product-hooks/SKILL.md` | Sandbox onboarding, Day 1-30 habit graduation, multiplayer loops, and offboarding. |
 | `skills/anti-slop/SKILL.md` | 85 deep stylometric, cross-linguistic, and anti-hype rules. |
+| `skills/self-review/SKILL.md` | Cold reread as a native reader in any language, with up to 3 rewrite rounds. |
 | `skills/value-check/SKILL.md` | 13-point ethical, payoff, organic-fit, and subtlety gate. |
 | `tools/slop_scan.py` | Zero-dependency Python CLI scanner (v5.1) measuring 18 stylometric and anti-hype indicators. |
 | `research/SOURCES.md` | 31-row primary academic literature, rating key, and replication audit. |

@@ -8,7 +8,7 @@
     {
       "name": "hook-everything",
       "source": "./",
-      "description": "12 skills for human-sounding copy and ethical hooks, plus a zero-dependency slop scanner.",
+      "description": "13 skills for human-sounding copy and ethical hooks, plus a zero-dependency slop scanner.",
       "version": "5.2.0"
     }
   ]

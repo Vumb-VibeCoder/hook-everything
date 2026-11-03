@@ -10,11 +10,7 @@ All notable changes to `hook-everything` are documented in this file.
 - `research/WATERMARKS.md`: what Anthropic, OpenAI and Google DeepMind have said about text watermarking, with primary and secondary sources marked. Claude's watermark uses word choice, not characters, so the scanner cannot see it.
 - `tests/test_hidden_chars.py`: 17 tests for the audit, the cleaner and the CLI flags.
 - README section on text watermarks.
-
-## [Unreleased]
-
-### Added
-
+- `skills/self-review`: a reader's pass that rereads a draft cold in its own language, gives a verdict backed by quoted spans, and rewrites in up to 3 rounds. Includes per-language tells for English, Vietnamese, Spanish, French, German and CJK plus a universal block. It is wired into the routing in `AGENTS.md`, `SKILL.md` and `README.md`, so the suite now has 13 skills.
 - `skills/value-check`: check 13, the Reader-Feeling Check, which asks how a piece feels to read for each reader segment. The idea comes from gregruthenbeck (https://github.com/gregregruthenbeckbeck), who calls this practice "detone".
 - The value gate grows from 12 to 13 points across `SKILL.md`, `AGENTS.md`, `README.md` and `skills/value-check/SKILL.md`.
 
